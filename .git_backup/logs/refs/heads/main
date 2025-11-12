@@ -1,0 +1,6 @@
+0000000000000000000000000000000000000000 8b3d74911626d6f0c4626d403566f94c549dce17 sanalnayyar <sanalsquad@gmail.com> 1762263288 +0530	commit (initial): made the login page
+8b3d74911626d6f0c4626d403566f94c549dce17 8b3d74911626d6f0c4626d403566f94c549dce17 sanalnayyar <sanalsquad@gmail.com> 1762263304 +0530	Branch: renamed refs/heads/main to refs/heads/main
+8b3d74911626d6f0c4626d403566f94c549dce17 100a025d316447a2b6af5e70f1a576c7ce546f9a sanalnayyar <sanalsquad@gmail.com> 1762263505 +0530	commit: made the signup ui
+100a025d316447a2b6af5e70f1a576c7ce546f9a a8834043a09d90f92a6733323829232e11b2cc45 sanalnayyar <sanalsquad@gmail.com> 1762263570 +0530	commit: gave the styling to the signup page
+a8834043a09d90f92a6733323829232e11b2cc45 d7a4b97cf504afad0e1dacfeec4abef4afbc8774 sanalnayyar <sanalsquad@gmail.com> 1762282920 +0530	commit: amde the schema structure
+d7a4b97cf504afad0e1dacfeec4abef4afbc8774 ed5d4b078a971202ca1eb06052e21e00dc365dee sanalnayyar <sanalsquad@gmail.com> 1762895496 +0530	commit: login/singup completed with firebase will sue monogn db in future

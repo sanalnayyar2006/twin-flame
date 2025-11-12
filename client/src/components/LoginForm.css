@@ -1,0 +1,122 @@
+.login-card {
+  background-color: white;
+  padding: 2rem;
+  border-radius: 15px;
+  width: 100%;
+  max-width: 420px;
+  margin: 0 auto;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.login-heading {
+  font-weight: bold;
+  font-size: 1.5rem;
+  margin-bottom: 0.2rem;
+}
+
+.login-description {
+  color: #707070;
+  margin-bottom: 1.5rem;
+}
+
+.login-label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: bold;
+}
+
+.login-input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 1.2rem;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  outline-color: #d86868;
+  font-size: 1rem;
+  box-sizing: border-box; /* prevent overflow from padding/border */
+  display: block;
+}
+
+.login-button {
+  width: 100%;
+  padding: 12px;
+  background-color: #d86868;
+  border: none;
+  border-radius: 10px;
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.login-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.login-footer-text {
+  color: #757575;
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.login-link {
+  color: #d86868;
+  cursor: pointer;
+  text-decoration: none;
+  margin-left: 4px;
+}
+
+.error-text {
+  color: #d33;
+  font-size: 0.9rem;
+  margin-top: 0.25rem;
+}
+
+.password-row {
+  position: relative;
+  width: 100%;
+}
+
+.password-toggle {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 4px;
+  background: transparent;
+  border: 0;
+  color: #d86868;
+  cursor: pointer;
+  font-size: 0.85rem;
+  line-height: 1;
+}
+
+/* Reserve space so the toggle doesn't overlap text */
+.password-row .login-input {
+  padding-right: 3rem;
+}
+
+/* Responsive tweaks */
+@media (min-width: 768px) {
+  .login-card {
+    max-width: 480px;
+    padding: 2.25rem;
+  }
+  .login-heading {
+    font-size: 1.75rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .login-card {
+    max-width: 520px;
+    padding: 2.5rem;
+  }
+  .login-heading {
+    font-size: 2rem;
+  }
+}
