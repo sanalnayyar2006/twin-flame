@@ -29,7 +29,10 @@ const corsOptions = {
       return callback(null, true)
     }
 
-    const allowedOrigins = [process.env.CLIENT_URL || "http://localhost:5173"]
+const allowedOrigins = [
+  process.env.CLIENT_URL || "http://localhost:5173",
+  "https://twin-flame-frontend.onrender.com"  // add this!
+];
 
     if (allowedOrigins.indexOf(origin) !== -1) {
       callback(null, true)
