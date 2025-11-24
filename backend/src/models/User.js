@@ -15,9 +15,27 @@ const userSchema = new mongoose.Schema({
         type: String,
         default: "",
     },
+    name: {
+        type: String,
+        default: "",
+    },
+    gender: {
+        type: String,
+        enum: ["male", "female", "other", ""],
+        default: "",
+    },
+    age: {
+        type: Number,
+        min: 13,
+        max: 120,
+    },
     photoURL: {
         type: String,
         default: "",
+    },
+    profileComplete: {
+        type: Boolean,
+        default: false,
     },
     partnerId: {
         type: mongoose.Schema.Types.ObjectId,

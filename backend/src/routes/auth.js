@@ -36,18 +36,39 @@ router.post("/firebase", verifyToken, async (req, res) => {
 // 🔹 Me route - returns current user (protected)
 router.get("/me", verifyToken, async (req, res) => {
   try {
-    const user = await User.findOne({ uid: req.user.uid })
+    const user = await User.findOne({ uid: req.user.uid });
 
     if (!user) {
-      return res.status(404).json({ message: "User not found" })
+      // Return basic Firebase info if user not in DB yet
+      return res.status(200).json({
+        user: {
+          uid: req.user.uid,
+          email: req.user.email,
+          emailVerified: req.user.email_verified,
+        },
+      });
     }
 
-    res.status(200).json({ user })
+    // Return full user profile
+    res.status(200).json({
+      user: {
+        uid: user.uid,
+        email: user.email,
+        name: user.name,
+        displayName: user.displayName,
+        gender: user.gender,
+        age: user.age,
+        photoURL: user.photoURL,
+        profileComplete: user.profileComplete,
+        partnerId: user.partnerId,
+        partnerCode: user.partnerCode,
+      },
+    });
   } catch (error) {
-    console.error("Me route error:", error.message)
-    res.status(500).json({ message: "Internal server error" })
+    console.error("Get Me Error:", error);
+    res.status(500).json({ message: "Internal server error" });
   }
-})
+});
 
 // 🔹 Logout (handled on frontend)
 router.post("/logout", (req, res) => {

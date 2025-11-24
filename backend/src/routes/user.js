@@ -15,9 +15,17 @@ const generateCode = () => {
 // @access  Private
 router.get("/code", verifyToken, async (req, res) => {
     try {
-        const user = await User.findOne({ uid: req.user.uid });
+        let user = await User.findOne({ uid: req.user.uid });
 
-        if (!user) return res.status(404).json({ message: "User not found" });
+        if (!user) {
+            // Auto-create user if missing (lazy creation for dev/env switching)
+            user = await User.create({
+                uid: req.user.uid,
+                email: req.user.email,
+                displayName: req.user.name || "",
+                photoURL: req.user.picture || "",
+            });
+        }
 
         // If user already has a code, return it
         if (user.partnerCode) {
@@ -54,8 +62,16 @@ router.post("/link", verifyToken, async (req, res) => {
     }
 
     try {
-        const currentUser = await User.findOne({ uid: req.user.uid });
-        if (!currentUser) return res.status(404).json({ message: "User not found" });
+        let currentUser = await User.findOne({ uid: req.user.uid });
+
+        if (!currentUser) {
+            currentUser = await User.create({
+                uid: req.user.uid,
+                email: req.user.email,
+                displayName: req.user.name || "",
+                photoURL: req.user.picture || "",
+            });
+        }
 
         if (currentUser.partnerId) {
             return res.status(400).json({ message: "You are already linked to a partner" });
@@ -93,6 +109,41 @@ router.post("/link", verifyToken, async (req, res) => {
 
     } catch (error) {
         console.error("Link Partner Error:", error);
+        res.status(500).json({ message: "Server error" });
+    }
+});
+
+// @route   GET /api/user/partner
+// @desc    Get partner information
+// @access  Private
+router.get("/partner", verifyToken, async (req, res) => {
+    try {
+        let currentUser = await User.findOne({ uid: req.user.uid });
+
+        if (!currentUser) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        if (!currentUser.partnerId) {
+            return res.status(404).json({ message: "No partner connected" });
+        }
+
+        const partner = await User.findById(currentUser.partnerId);
+
+        if (!partner) {
+            return res.status(404).json({ message: "Partner not found" });
+        }
+
+        res.json({
+            partner: {
+                name: partner.name,
+                displayName: partner.displayName,
+                email: partner.email,
+                photoURL: partner.photoURL,
+            },
+        });
+    } catch (error) {
+        console.error("Get Partner Error:", error);
         res.status(500).json({ message: "Server error" });
     }
 });

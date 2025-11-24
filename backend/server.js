@@ -15,21 +15,7 @@ const PORT = process.env.PORT || 5000
 
 // Middlewares
 const corsOptions = {
-  origin: (origin, callback) => {
-    const allowedOrigins = [
-      process.env.CLIENT_URL || "http://localhost:5173",
-      "https://twin-flame-frontend.onrender.com"
-    ];
-
-    // Allow requests with no origin (like mobile apps or curl requests)
-    if (!origin) return callback(null, true)
-
-    if (allowedOrigins.indexOf(origin) !== -1 || process.env.NODE_ENV !== "production") {
-      callback(null, true)
-    } else {
-      callback(new Error("Not allowed by CORS"))
-    }
-  },
+  origin: ["http://localhost:5173", "http://localhost:3000", "http://127.0.0.1:5173", "https://twin-flame-frontend.onrender.com"],
   credentials: true,
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
@@ -47,11 +33,15 @@ if (process.env.NODE_ENV !== "production") {
 }
 
 import userRoutes from "./src/routes/user.js"
+import truthDareRoutes from "./src/routes/truthDare.js"
+import profileRoutes from "./src/routes/profile.js"
 
 // ... (existing code)
 
 app.use("/api/auth", authRoutes)
 app.use("/api/user", userRoutes)
+app.use("/api/truthdare", truthDareRoutes)
+app.use("/api/profile", profileRoutes)
 
 app.get("/", (req, res) => {
   res.send("API is running")

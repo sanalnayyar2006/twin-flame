@@ -19,13 +19,19 @@ export const AuthProvider = ({ children }) => {
           email: firebaseUser.email,
           emailVerified: firebaseUser.emailVerified,
         })
-        
+
         // Optionally fetch additional user info from backend
         // This is done asynchronously and won't block the UI
         try {
           const response = await authAPI.getMe()
           if (response.user) {
-            setUser(response.user)
+            // Merge Firebase user with backend user data
+            setUser({
+              uid: firebaseUser.uid,
+              email: firebaseUser.email,
+              emailVerified: firebaseUser.emailVerified,
+              ...response.user,
+            })
           }
         } catch (error) {
           // Backend call failed, but we still have Firebase user data

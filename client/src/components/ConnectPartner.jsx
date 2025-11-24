@@ -35,19 +35,26 @@ export default function ConnectPartner() {
 
     const handleLink = async (e) => {
         e.preventDefault();
-        if (!partnerCode.trim()) return;
+
+        if (!partnerCode.trim()) {
+            setError("Please enter a partner code");
+            return;
+        }
 
         setLoading(true);
         setError("");
         setSuccess("");
 
         try {
-            const data = await userAPI.linkPartner(partnerCode);
-            setSuccess(`Connected with ${data.partner.name || "your partner"}! Redirecting...`);
-            setTimeout(() => navigate("/dashboard"), 2000);
+            await userAPI.linkPartner(partnerCode.trim());
+            setSuccess("Successfully linked! Refreshing...");
+
+            // Force full page reload to refresh user context
+            setTimeout(() => {
+                window.location.reload();
+            }, 1500);
         } catch (err) {
-            setError(err.message || "Failed to link partner");
-        } finally {
+            setError(err.message || "Failed to link. Please check the code.");
             setLoading(false);
         }
     };
@@ -72,7 +79,14 @@ export default function ConnectPartner() {
                             </span>
                         )}
                     </div>
-                    {error && !myCode && <p className="error-text" style={{ textAlign: 'center' }}>{error}</p>}
+                    {error && !myCode && (
+                        <div className="error-text" style={{ textAlign: 'center' }}>
+                            <p>{error}</p>
+                            <p style={{ fontSize: '0.8rem', marginTop: '0.5rem', color: '#ff8fa3' }}>
+                                Check console for details.
+                            </p>
+                        </div>
+                    )}
                 </div>
 
                 <div className="divider">OR</div>

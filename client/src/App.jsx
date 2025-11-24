@@ -5,6 +5,8 @@ import LoginForm from "./components/LoginForm";
 import SignupForm from "./components/SignupForm";
 import Dashboard from "./components/Dashboard";
 import ConnectPartner from "./components/ConnectPartner";
+import TruthDare from "./components/TruthDare";
+import ProfileSetup from "./components/ProfileSetup";
 import ProtectedRoute from "./components/ProtectedRoute";
 import "./App.css";
 
@@ -21,10 +23,17 @@ function AppRoutes() {
     document.title = title;
   }, [location.pathname]);
 
+  // Only show title on login/signup pages
+  const showTitle = location.pathname === '/' || location.pathname === '/login' || location.pathname === '/signup';
+
   return (
     <div className="app-container">
-      <h1 className="app-title">TwinFlame</h1>
-      <p className="app-subtitle">Connect as a couple</p>
+      {showTitle && (
+        <>
+          <h1 className="app-title">TwinFlame</h1>
+          <p className="app-subtitle">Connect as a couple</p>
+        </>
+      )}
 
       <Routes>
         <Route
@@ -40,10 +49,34 @@ function AppRoutes() {
           element={user ? <Navigate to="/dashboard" replace /> : <SignupForm />}
         />
         <Route
+          path="/profile-setup"
+          element={
+            <ProtectedRoute>
+              <ProfileSetup />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/edit-profile"
+          element={
+            <ProtectedRoute>
+              <ProfileSetup />
+            </ProtectedRoute>
+          }
+        />
+        <Route
           path="/connect"
           element={
             <ProtectedRoute>
               <ConnectPartner />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/truth-dare"
+          element={
+            <ProtectedRoute>
+              <TruthDare />
             </ProtectedRoute>
           }
         />

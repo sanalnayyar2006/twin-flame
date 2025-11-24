@@ -1,5 +1,6 @@
 // API configuration
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+const API_BASE_URL = `${BASE_URL}/api`;
 
 // Helper function to get the Firebase ID token
 const getIdToken = async () => {
@@ -19,10 +20,10 @@ const getIdToken = async () => {
 // Helper function for API calls
 export async function apiRequest(endpoint, options = {}) {
   const url = `${API_BASE_URL}${endpoint}`;
-  
+
   // Get Firebase ID token if available
   const token = await getIdToken();
-  
+
   const config = {
     ...options,
     headers: {
@@ -35,11 +36,11 @@ export async function apiRequest(endpoint, options = {}) {
 
   try {
     const response = await fetch(url, config);
-    
+
     // Check if response is JSON before parsing
     const contentType = response.headers.get('content-type');
     let data;
-    
+
     if (contentType && contentType.includes('application/json')) {
       data = await response.json();
     } else {

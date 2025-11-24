@@ -58,8 +58,22 @@ export default function SignupForm() {
       if (result?.error) throw new Error(result.error);
       if (!result?.user) throw new Error("No user returned from Firebase.");
 
-      // Optionally handle partnerCode storage later via Firestore
-      navigate("/login");
+      // If partner code is provided, link accounts
+      if (partnerCode.trim()) {
+        try {
+          // Wait a moment for user to be created in backend
+          await new Promise(resolve => setTimeout(resolve, 1000));
+
+          const { userAPI } = await import("../utils/userApi");
+          await userAPI.linkPartner(partnerCode.trim());
+          console.log("Successfully linked with partner during signup");
+        } catch (linkError) {
+          console.error("Failed to link partner during signup:", linkError);
+          // Don't block signup if linking fails - user can link later
+        }
+      }
+
+      navigate("/profile-setup");
     } catch (error) {
       console.error("Signup error:", error);
       const message = error.message || "Signup failed. Please try again.";
@@ -152,12 +166,14 @@ export default function SignupForm() {
         onChange={(e) =>
           setPartnerCode(e.target.value.toUpperCase().replace(/[^A-Za-z0-9]/g, "").slice(0, 5))
         }
-        placeholder="e.g. A1B2C"
-        pattern="[A-Za-z0-9]{5}"
+        placeholder="Partner Code (Optional)"
         maxLength={5}
         ariaInvalid={!!errors.partnerCode}
         ariaDescribedBy={errors.partnerCode ? "partner-error" : undefined}
       />
+      <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', marginTop: '-0.5rem' }}>
+        Have your partner's code? Enter it to connect instantly!
+      </p>
       {errors.partnerCode && <div id="partner-error" className="error-text">{errors.partnerCode}</div>}
 
       <Button type="submit" loading={loading}>
