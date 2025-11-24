@@ -1,0 +1,93 @@
+.connect-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
+    padding: 1rem;
+}
+
+.connect-card {
+    padding: 3rem;
+    max-width: 500px;
+    width: 100%;
+    text-align: center;
+}
+
+.connect-title {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+    background: linear-gradient(to right, #ff4b6e, #ff8fa3);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.connect-desc {
+    color: var(--text-secondary);
+    margin-bottom: 2.5rem;
+}
+
+.section-label {
+    font-weight: 600;
+    margin-bottom: 0.8rem;
+    color: var(--text-primary);
+    text-align: left;
+}
+
+.code-box {
+    background: rgba(0, 0, 0, 0.3);
+    border: 2px dashed rgba(255, 255, 255, 0.2);
+    padding: 1.5rem;
+    border-radius: 16px;
+    font-size: 2rem;
+    font-weight: 800;
+    letter-spacing: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    margin-bottom: 2rem;
+}
+
+.code-box:hover {
+    border-color: var(--primary-color);
+    background: rgba(0, 0, 0, 0.4);
+}
+
+.copy-icon {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.2rem;
+    opacity: 0.7;
+}
+
+.divider {
+    display: flex;
+    align-items: center;
+    color: var(--text-secondary);
+    font-weight: 600;
+    margin: 1rem 0 2rem;
+}
+
+.divider::before,
+.divider::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.divider::before {
+    margin-right: 1rem;
+}
+
+.divider::after {
+    margin-left: 1rem;
+}
+
+.success-text {
+    color: #4ade80;
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
