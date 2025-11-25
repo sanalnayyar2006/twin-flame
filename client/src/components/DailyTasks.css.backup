@@ -1,0 +1,393 @@
+.daily-tasks-container {
+    padding: 6rem 2rem 2rem;
+    max-width: 900px;
+    margin: 0 auto;
+    min-height: 100vh;
+    animation: fadeIn 0.5s ease-out;
+}
+
+.daily-tasks-card {
+    padding: 3rem;
+    text-align: center;
+    animation: fadeInUp 0.6s ease-out;
+}
+
+.daily-tasks-title {
+    font-size: 2.5rem;
+    font-weight: 900;
+    background: linear-gradient(to right, #ff4b6e, #ff8fa3);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 0.5rem;
+}
+
+.daily-tasks-subtitle {
+    color: var(--text-secondary);
+    margin-bottom: 2rem;
+    font-size: 1.1rem;
+}
+
+/* Task Description */
+.task-description {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 2rem;
+    margin: 2rem 0;
+    animation: scaleIn 0.5s ease-out 0.2s both;
+    transition: all 0.3s ease;
+}
+
+.task-description:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
+.task-description p {
+    font-size: 1.3rem;
+    line-height: 1.6;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+/* Partners Status */
+.partners-status {
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
+    margin: 3rem 0;
+}
+
+.partner-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.partner-avatar-wrapper {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    animation: float 3s ease-in-out infinite;
+}
+
+.partner-avatar-wrapper:nth-child(2) {
+    animation-delay: 0.5s;
+}
+
+.partner-avatar {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid rgba(255, 255, 255, 0.2);
+}
+
+.partner-avatar-placeholder {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    font-weight: 700;
+    font-size: 2.5rem;
+    border: 3px solid rgba(255, 255, 255, 0.2);
+}
+
+.completion-checkmark {
+    position: absolute;
+    bottom: -5px;
+    right: -5px;
+    width: 35px;
+    height: 35px;
+    background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.2rem;
+    font-weight: bold;
+    border: 3px solid var(--bg-primary);
+    animation: checkmarkPop 0.3s ease;
+}
+
+@keyframes checkmarkPop {
+    0% {
+        transform: scale(0);
+    }
+
+    50% {
+        transform: scale(1.2);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+.partner-name {
+    font-weight: 600;
+    font-size: 1.1rem;
+    margin: 0;
+}
+
+.completion-status {
+    font-size: 0.9rem;
+
+    .submission-textarea {
+        width: 100%;
+        min-height: 120px;
+        padding: 1rem;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 12px;
+        color: var(--text-primary);
+        font-size: 1rem;
+        font-family: inherit;
+        resize: vertical;
+        margin-bottom: 1rem;
+    }
+
+    .submission-textarea:focus {
+        outline: none;
+        border-color: #ff8fa3;
+    }
+
+    .file-upload-area {
+        margin: 1rem 0;
+    }
+
+    .file-input-hidden {
+        display: none;
+    }
+
+    .file-upload-label {
+        display: inline-block;
+        padding: 1rem 2rem;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-weight: 600;
+    }
+
+    .file-upload-label:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+    }
+
+    .file-preview {
+        margin-top: 1rem;
+        border-radius: 12px;
+        overflow: hidden;
+    }
+
+    .file-preview img {
+        max-width: 100%;
+        max-height: 300px;
+        object-fit: contain;
+        border-radius: 12px;
+    }
+
+    .upload-progress {
+        text-align: center;
+        color: #ff8fa3;
+        font-style: italic;
+        margin: 1rem 0;
+    }
+
+    .submit-task-btn {
+        width: 100%;
+        margin-top: 1rem;
+        padding: 1rem 2rem;
+        font-size: 1.1rem;
+    }
+
+    /* Submissions Display */
+    .submissions-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+        margin: 2rem 0;
+    }
+
+    .submission-display {
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 16px;
+        padding: 1.5rem;
+        text-align: left;
+    }
+
+    .submission-display h4 {
+        margin-top: 0;
+        margin-bottom: 1rem;
+        color: var(--text-primary);
+        font-size: 1.1rem;
+    }
+
+    .submission-text {
+        color: var(--text-primary);
+        line-height: 1.6;
+        margin-bottom: 1rem;
+        white-space: pre-wrap;
+    }
+
+    .submission-media {
+        margin-top: 1rem;
+        border-radius: 12px;
+        overflow: hidden;
+    }
+
+    .submission-media img,
+    .submission-media video {
+        width: 100%;
+        max-height: 300px;
+        object-fit: cover;
+        border-radius: 12px;
+    }
+
+    .partner-submission {
+        border-color: rgba(255, 143, 163, 0.3);
+    }
+
+    /* Messages */
+    .no-partner-message {
+        margin: 2rem 0;
+        padding: 1.5rem;
+        background: rgba(255, 143, 163, 0.1);
+        border-radius: 12px;
+        color: #ff8fa3;
+    }
+
+    .waiting-message {
+        margin: 2rem 0;
+        font-size: 1.1rem;
+        color: #ff8fa3;
+        font-style: italic;
+    }
+
+    .both-completed-message {
+        margin: 2rem 0;
+        padding: 1.5rem;
+        background: linear-gradient(135deg, rgba(74, 222, 128, 0.1) 0%, rgba(34, 197, 94, 0.1) 100%);
+        border-radius: 12px;
+        border: 1px solid rgba(74, 222, 128, 0.3);
+    }
+
+    .both-completed-message p {
+        font-size: 1.3rem;
+        font-weight: 600;
+        color: #4ade80;
+        margin: 0;
+    }
+
+    /* Celebration Overlay */
+    .celebration-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.8);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+        animation: fadeIn 0.3s ease;
+    }
+
+    .celebration-content {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        padding: 3rem;
+        border-radius: 24px;
+        text-align: center;
+        animation: celebrationPop 0.5s ease;
+    }
+
+    .celebration-content h2 {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        color: white;
+    }
+
+    .celebration-content p {
+        font-size: 1.5rem;
+        color: white;
+        margin: 0;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+
+        to {
+            opacity: 1;
+        }
+    }
+
+    @keyframes celebrationPop {
+        0% {
+            transform: scale(0.5);
+            opacity: 0;
+        }
+
+        50% {
+            transform: scale(1.1);
+        }
+
+        100% {
+            transform: scale(1);
+            opacity: 1;
+        }
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .submissions-container {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    @media (max-width: 600px) {
+        .daily-tasks-card {
+            padding: 2rem 1.5rem;
+        }
+
+        .daily-tasks-title {
+            font-size: 2rem;
+        }
+
+        .partners-status {
+            gap: 2rem;
+        }
+
+        .partner-avatar-wrapper {
+            width: 80px;
+            height: 80px;
+        }
+
+        .task-description p {
+            font-size: 1.1rem;
+        }
+
+        .celebration-content {
+            padding: 2rem;
+        }
+
+        .celebration-content h2 {
+            font-size: 2rem;
+        }
+
+        .celebration-content p {
+            font-size: 1.2rem;
+        }
+    }

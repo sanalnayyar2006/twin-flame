@@ -7,6 +7,7 @@ import Dashboard from "./components/Dashboard";
 import ConnectPartner from "./components/ConnectPartner";
 import TruthDare from "./components/TruthDare";
 import ProfileSetup from "./components/ProfileSetup";
+import DailyTasks from "./components/DailyTasks";
 import ProtectedRoute from "./components/ProtectedRoute";
 import "./App.css";
 
@@ -77,6 +78,14 @@ function AppRoutes() {
           element={
             <ProtectedRoute>
               <TruthDare />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/tasks"
+          element={
+            <ProtectedRoute>
+              <DailyTasks />
             </ProtectedRoute>
           }
         />

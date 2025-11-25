@@ -11,6 +11,12 @@ export default function Dashboard() {
   const navigate = useNavigate()
   const [partner, setPartner] = useState(null)
   const [loadingPartner, setLoadingPartner] = useState(false)
+  const [isVisible, setIsVisible] = useState(false)
+
+  // Trigger animations on mount
+  useEffect(() => {
+    setIsVisible(true)
+  }, [])
 
   // Fetch partner info if connected
   useEffect(() => {
@@ -18,7 +24,6 @@ export default function Dashboard() {
       if (user?.partnerId) {
         setLoadingPartner(true);
         try {
-          // Get Firebase token
           const firebaseUser = auth.currentUser;
           if (!firebaseUser) {
             console.error("No Firebase user found");
@@ -62,28 +67,32 @@ export default function Dashboard() {
       icon: "📅",
       desc: "Complete today's fun challenge with your partner!",
       action: "View Task",
-      path: "/tasks"
+      path: "/tasks",
+      gradient: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)"
     },
     {
       title: "Truth & Dare",
       icon: "🎲",
       desc: "Spin the bottle and play a game of honesty or daring.",
       action: "Play Now",
-      path: "/truth-dare"
+      path: "/truth-dare",
+      gradient: "linear-gradient(135deg, #f093fb 0%, #f5576c 100%)"
     },
     {
       title: "Chat",
       icon: "💬",
       desc: "Private secure messaging with your twin flame.",
       action: "Open Chat",
-      path: "/chat"
+      path: "/chat",
+      gradient: "linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)"
     },
     {
       title: "Media Gallery",
       icon: "📸",
       desc: "Your shared album of memories and voice notes.",
       action: "View Gallery",
-      path: "/media"
+      path: "/media",
+      gradient: "linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)"
     }
   ]
 
@@ -91,22 +100,22 @@ export default function Dashboard() {
     <>
       <Navbar />
       <div className="dashboard-container">
-        <div className="dashboard-header glass-card">
+        <div className={`dashboard-header glass-card ${isVisible ? 'animate-fadeInDown' : ''}`}>
           <div className="user-welcome">
             {user.partnerId && partner ? (
               <>
-                <h2>Hi {user.name || user.displayName || user.email?.split('@')[0]} & {partner.name || partner.displayName || partner.email?.split('@')[0]}! 💕</h2>
+                <h2 className="greeting-text">Hi {user.name || user.displayName || user.email?.split('@')[0]} & {partner.name || partner.displayName || partner.email?.split('@')[0]}! 💕</h2>
                 <p className="love-quote">"You know you're in love when you can't fall asleep because reality is finally better than your dreams."</p>
               </>
             ) : (
               <>
-                <h2>Hello, {user.name || user.displayName || user.email?.split('@')[0]}! 👋</h2>
+                <h2 className="greeting-text">Hello, {user.name || user.displayName || user.email?.split('@')[0]}! 👋</h2>
                 <p>Ready to connect with your partner?</p>
               </>
             )}
             {!user.partnerId && (
               <button
-                className="connect-partner-btn"
+                className="connect-partner-btn hover-lift"
                 onClick={() => navigate('/connect')}
               >
                 Not connected? Connect now
@@ -117,11 +126,20 @@ export default function Dashboard() {
 
         <div className="dashboard-grid">
           {features.map((feature, index) => (
-            <div key={index} className="feature-card glass-card">
-              <div className="feature-icon">{feature.icon}</div>
+            <div
+              key={index}
+              className={`feature-card glass-card hover-lift ${isVisible ? 'animate-fadeInUp' : ''} stagger-${index + 1}`}
+              style={{ '--card-gradient': feature.gradient }}
+            >
+              <div className="feature-icon-wrapper">
+                <div className="feature-icon animate-float">{feature.icon}</div>
+              </div>
               <h3 className="feature-title">{feature.title}</h3>
               <p className="feature-desc">{feature.desc}</p>
-              <Button className="action-btn" onClick={() => navigate(feature.path)}>
+              <Button
+                className="action-btn hover-scale"
+                onClick={() => navigate(feature.path)}
+              >
                 {feature.action}
               </Button>
             </div>

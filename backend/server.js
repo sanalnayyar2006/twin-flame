@@ -22,7 +22,8 @@ const corsOptions = {
 }
 
 app.use(cors(corsOptions))
-app.use(express.json())
+app.use(express.json({ limit: "50mb" }))
+app.use(express.urlencoded({ limit: "50mb", extended: true }))
 
 // Logging middleware for dev
 if (process.env.NODE_ENV !== "production") {
@@ -35,6 +36,7 @@ if (process.env.NODE_ENV !== "production") {
 import userRoutes from "./src/routes/user.js"
 import truthDareRoutes from "./src/routes/truthDare.js"
 import profileRoutes from "./src/routes/profile.js"
+import taskRoutes from "./src/routes/tasks.js"
 
 // ... (existing code)
 
@@ -42,6 +44,7 @@ app.use("/api/auth", authRoutes)
 app.use("/api/user", userRoutes)
 app.use("/api/truthdare", truthDareRoutes)
 app.use("/api/profile", profileRoutes)
+app.use("/api/tasks", taskRoutes)
 
 app.get("/", (req, res) => {
   res.send("API is running")

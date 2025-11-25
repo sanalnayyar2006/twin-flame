@@ -7,7 +7,7 @@ import Button from "./ui/Button";
 import "./ProfileSetup.css";
 
 export default function ProfileSetup() {
-    const { user } = useAuth();
+    const { user, updateUser } = useAuth();
     const navigate = useNavigate();
 
     const [formData, setFormData] = useState({
@@ -89,13 +89,25 @@ export default function ProfileSetup() {
             if (photoFile) {
                 try {
                     console.log("Uploading new photo...");
-                    photoURL = await uploadProfilePicture(photoFile, user.uid);
+
+                    // Create a timeout promise
+                    const timeoutPromise = new Promise((_, reject) =>
+                        setTimeout(() => reject(new Error("Upload timed out")), 15000)
+                    );
+
+                    // Race between upload and timeout
+                    photoURL = await Promise.race([
+                        uploadProfilePicture(photoFile, user.uid),
+                        timeoutPromise
+                    ]);
+
                     console.log("Photo uploaded:", photoURL);
                 } catch (uploadError) {
                     console.error("Photo upload failed:", uploadError);
                     // Continue without photo update if upload fails
-                    setError("Photo upload failed, but profile will be saved without new photo");
-                    photoURL = photoPreview; // Keep existing photo
+                    setError("Photo upload failed (likely CORS). Saving profile without new photo.");
+                    // Fallback to existing user photo, NOT the base64 preview
+                    photoURL = user.photoURL || "";
                 }
             }
 
@@ -111,20 +123,26 @@ export default function ProfileSetup() {
                 name: formData.name.trim(),
                 gender: formData.gender,
                 age: parseInt(formData.age),
-                photoURL: photoURL || "", // Send empty string if no photo
+                photoURL: photoURL || "",
             });
 
             console.log("Profile updated successfully:", result);
 
-            // Redirect to dashboard and let it reload
+            // Update local context immediately
+            if (updateUser) {
+                updateUser({
+                    name: formData.name.trim(),
+                    photoURL: photoURL || user.photoURL
+                });
+            }
+
+            // Navigate to dashboard
             navigate("/dashboard");
-            // Force a full page reload after navigation to refresh context
-            setTimeout(() => {
-                window.location.href = "/dashboard";
-            }, 100);
+
         } catch (err) {
             console.error("Profile setup error:", err);
             setError(err.message || "Failed to save profile. Please try again.");
+        } finally {
             setLoading(false);
         }
     };

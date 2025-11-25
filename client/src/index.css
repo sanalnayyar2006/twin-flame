@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap');
+@import './styles/animations.css';
+
 :root {
   --primary-color: #ff4b6e;
   --primary-hover: #e63e5e;
@@ -35,6 +38,8 @@ h4,
 h5,
 h6 {
   margin: 0;
+  padding: 0;
+  box-sizing: border-box;
   font-weight: 700;
   line-height: 1.2;
 }
