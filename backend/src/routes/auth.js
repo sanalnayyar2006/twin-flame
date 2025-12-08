@@ -70,7 +70,7 @@ router.get("/me", verifyToken, async (req, res) => {
   }
 });
 
-// 🔹 Logout (handled on frontend)
+
 router.post("/logout", (req, res) => {
   res.status(200).json({ message: "Logged out successfully" })
 })

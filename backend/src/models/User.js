@@ -47,6 +47,10 @@ const userSchema = new mongoose.Schema({
         unique: true,
         sparse: true, // Allows null/undefined to not conflict
     },
+    truthDareTurn: {
+        type: Boolean,
+        default: true,
+    },
     createdAt: {
         type: Date,
         default: Date.now,

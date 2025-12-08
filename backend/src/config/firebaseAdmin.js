@@ -15,6 +15,7 @@ if (!admin.apps.length) {
 
     admin.initializeApp({
       credential: admin.credential.cert(serviceAccount),
+      storageBucket: "twinflame-47840.firebasestorage.app"
     });
 
     console.log("✅ Firebase Admin SDK initialized successfully");

@@ -37,14 +37,29 @@ import userRoutes from "./src/routes/user.js"
 import truthDareRoutes from "./src/routes/truthDare.js"
 import profileRoutes from "./src/routes/profile.js"
 import taskRoutes from "./src/routes/tasks.js"
+import galleryRoutes from "./src/routes/gallery.js"
+import photosRoutes from "./src/routes/photos.js"
 
-// ... (existing code)
+
+
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+
+
+
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 app.use("/api/auth", authRoutes)
 app.use("/api/user", userRoutes)
 app.use("/api/truthdare", truthDareRoutes)
 app.use("/api/profile", profileRoutes)
 app.use("/api/tasks", taskRoutes)
+app.use("/api/gallery", galleryRoutes)
+app.use("/api/photos", photosRoutes)
 
 app.get("/", (req, res) => {
   res.send("API is running")
@@ -68,7 +83,11 @@ app.use((err, req, res, next) => {
   if (err.message === "Not allowed by CORS") {
     return res.status(403).json({ message: "CORS: Access denied" })
   }
-  res.status(500).json({ message: "Internal server error" })
+  res.status(500).json({
+    message: "Internal server error",
+    error: err.message, // Exposed for debugging
+    stack: process.env.NODE_ENV === 'development' ? err.stack : undefined
+  })
 })
 
 app.listen(PORT, () => {

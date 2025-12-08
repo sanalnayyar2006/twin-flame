@@ -194,4 +194,191 @@ router.post("/seed", verifyToken, async (req, res) => {
     }
 });
 
+// @route   GET /api/tasks/history
+// @desc    Get task history with pagination and filtering
+// @access  Private
+router.get("/history", verifyToken, async (req, res) => {
+    try {
+        const {
+            page = 1,
+            limit = 10,
+            startDate,
+            endDate,
+            sortBy = 'date',
+            sortOrder = 'desc'
+        } = req.query;
+
+        // Build filter object
+        const filter = {};
+        if (startDate || endDate) {
+            filter.date = {};
+            if (startDate) filter.date.$gte = new Date(startDate);
+            if (endDate) filter.date.$lte = new Date(endDate);
+        }
+
+        // Build sort object
+        const sort = {};
+        sort[sortBy] = sortOrder === 'asc' ? 1 : -1;
+
+        // Calculate pagination
+        const pageNum = parseInt(page);
+        const limitNum = parseInt(limit);
+        const skip = (pageNum - 1) * limitNum;
+
+        // Execute queries
+        const [tasks, total] = await Promise.all([
+            DailyTask.find(filter)
+                .sort(sort)
+                .skip(skip)
+                .limit(limitNum),
+            DailyTask.countDocuments(filter)
+        ]);
+
+        res.json({
+            tasks,
+            pagination: {
+                total,
+                page: pageNum,
+                limit: limitNum,
+                totalPages: Math.ceil(total / limitNum)
+            }
+        });
+    } catch (error) {
+        console.error("Task History Error:", error);
+        res.status(500).json({ message: "Server error" });
+    }
+});
+
+// @route   PUT /api/tasks/:id
+// @desc    Update a task
+// @access  Private
+router.put("/:id", verifyToken, async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { description, submissionType, category } = req.body;
+
+        // Validate input
+        if (!description) {
+            return res.status(400).json({ message: "Description is required" });
+        }
+
+        const updateData = { description };
+        if (submissionType) updateData.submissionType = submissionType;
+        if (category) updateData.category = category;
+
+        const task = await DailyTask.findByIdAndUpdate(
+            id,
+            updateData,
+            { new: true, runValidators: true }
+        );
+
+        if (!task) {
+            return res.status(404).json({ message: "Task not found" });
+        }
+
+        res.json({ message: "Task updated successfully", task });
+    } catch (error) {
+        console.error("Update Task Error:", error);
+        res.status(500).json({ message: "Server error" });
+    }
+});
+
+// @route   DELETE /api/tasks/:id
+// @desc    Delete a task
+// @access  Private
+router.delete("/:id", verifyToken, async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        const task = await DailyTask.findByIdAndDelete(id);
+
+        if (!task) {
+            return res.status(404).json({ message: "Task not found" });
+        }
+
+        // Also delete associated completions
+        await TaskCompletion.deleteMany({ taskId: id });
+
+        res.json({ message: "Task and associated completions deleted successfully", task });
+    } catch (error) {
+        console.error("Delete Task Error:", error);
+        res.status(500).json({ message: "Server error" });
+    }
+});
+
+// @route   GET /api/tasks/completions
+// @desc    Get all task completions with filtering
+// @access  Private
+router.get("/completions", verifyToken, async (req, res) => {
+    try {
+        const {
+            page = 1,
+            limit = 10,
+            userId,
+            taskId,
+            startDate,
+            endDate
+        } = req.query;
+
+        // Build filter object
+        const filter = {};
+        if (userId) filter.userId = userId;
+        if (taskId) filter.taskId = taskId;
+        if (startDate || endDate) {
+            filter.completedAt = {};
+            if (startDate) filter.completedAt.$gte = new Date(startDate);
+            if (endDate) filter.completedAt.$lte = new Date(endDate);
+        }
+
+        // Calculate pagination
+        const pageNum = parseInt(page);
+        const limitNum = parseInt(limit);
+        const skip = (pageNum - 1) * limitNum;
+
+        // Execute queries
+        const [completions, total] = await Promise.all([
+            TaskCompletion.find(filter)
+                .populate('taskId', 'description category')
+                .populate('userId', 'name email')
+                .sort({ completedAt: -1 })
+                .skip(skip)
+                .limit(limitNum),
+            TaskCompletion.countDocuments(filter)
+        ]);
+
+        res.json({
+            completions,
+            pagination: {
+                total,
+                page: pageNum,
+                limit: limitNum,
+                totalPages: Math.ceil(total / limitNum)
+            }
+        });
+    } catch (error) {
+        console.error("Get Completions Error:", error);
+        res.status(500).json({ message: "Server error" });
+    }
+});
+
+// @route   DELETE /api/tasks/completions/:id
+// @desc    Delete a task completion
+// @access  Private
+router.delete("/completions/:id", verifyToken, async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        const completion = await TaskCompletion.findByIdAndDelete(id);
+
+        if (!completion) {
+            return res.status(404).json({ message: "Completion not found" });
+        }
+
+        res.json({ message: "Completion deleted successfully", completion });
+    } catch (error) {
+        console.error("Delete Completion Error:", error);
+        res.status(500).json({ message: "Server error" });
+    }
+});
+
 export default router;
