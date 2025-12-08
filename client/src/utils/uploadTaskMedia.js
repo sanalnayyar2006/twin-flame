@@ -1,11 +1,24 @@
-import { storage } from "../config/firebase";
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { auth } from "../config/firebase";
+
+const API_URL = import.meta.env.VITE_API_URL;
 
 /**
- * Upload task submission media (photo/video) to Firebase Storage
+ * Convert file to Base64 string
+ */
+const fileToBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = (error) => reject(error);
+    });
+};
+
+/**
+ * Upload task submission media (photo/video) to Firebase Storage via Backend Proxy
  * @param {File} file - The file to upload
  * @param {string} userId - User ID
- * @param {string} taskId - Task ID
+ * @param {string} taskId - Task ID (optional)
  * @returns {Promise<string>} - Download URL of uploaded file
  */
 export const uploadTaskMedia = async (file, userId, taskId) => {
@@ -30,21 +43,40 @@ export const uploadTaskMedia = async (file, userId, taskId) => {
     }
 
     try {
-        // Create unique filename
-        const timestamp = Date.now();
-        const filename = `${timestamp}_${file.name}`;
-        const storagePath = `task_submissions/${userId}/${taskId}/${filename}`;
+        // Convert to Base64
+        const base64Data = await fileToBase64(file);
+        const token = await auth.currentUser?.getIdToken();
 
-        // Create storage reference
-        const storageRef = ref(storage, storagePath);
+        if (!token) {
+            throw new Error("Authentication required");
+        }
 
-        // Upload file
-        await uploadBytes(storageRef, file);
+        // Determine folder
+        const folder = taskId ? "task_submissions" : "gallery_uploads";
 
-        // Get download URL
-        const downloadURL = await getDownloadURL(storageRef);
+        // Upload via Backend Proxy
+        const response = await fetch(`${API_URL}/api/photos/upload-file`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            },
+            body: JSON.stringify({
+                fileData: base64Data,
+                fileName: file.name,
+                contentType: file.type,
+                folder: folder
+            })
+        });
 
-        return downloadURL;
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.message || "Upload failed");
+        }
+
+        const data = await response.json();
+        return data.url;
+
     } catch (error) {
         console.error("Upload error:", error);
         throw new Error("Failed to upload file. Please try again.");

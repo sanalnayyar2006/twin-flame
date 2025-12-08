@@ -184,6 +184,19 @@
     }
 
     .dropdown-menu {
-        right: 1.5rem;
+        position: fixed;
+        top: 70px;
+        left: 1rem;
+        right: 1rem;
+        width: auto;
+        min-width: unset;
+        background: rgba(30, 30, 40, 0.98);
+        padding: 1rem;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+    }
+
+    .dropdown-item {
+        padding: 1rem;
+        font-size: 1.1rem;
     }
 }

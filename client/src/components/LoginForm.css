@@ -137,3 +137,21 @@
 .password-row .login-input {
   padding-right: 4rem;
 }
+
+/* Responsive */
+@media (max-width: 480px) {
+  .login-card {
+    padding: 1.5rem;
+    border-radius: 20px;
+  }
+
+  .login-heading {
+    font-size: 1.75rem;
+  }
+
+  .login-input {
+    padding: 10px 14px;
+    font-size: 16px;
+    /* Prevents zoom on iOS */
+  }
+}

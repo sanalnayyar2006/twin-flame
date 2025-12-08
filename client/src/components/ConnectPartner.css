@@ -91,3 +91,24 @@
     margin-bottom: 1rem;
     font-weight: 600;
 }
+
+/* Responsive */
+@media (max-width: 600px) {
+    .connect-card {
+        padding: 2rem 1.5rem;
+    }
+
+    .connect-title {
+        font-size: 1.5rem;
+    }
+
+    .code-box {
+        font-size: 1.5rem;
+        padding: 1rem;
+        letter-spacing: 2px;
+    }
+
+    .copy-icon {
+        right: 0.5rem;
+    }
+}

@@ -136,3 +136,91 @@
         transform: scale(1);
     }
 }
+
+/* Responsive */
+@media (max-width: 768px) {
+    .game-container {
+        padding: 1rem;
+    }
+
+    .game-title {
+        font-size: 2rem;
+    }
+
+    .choice-card {
+        width: 140px;
+        height: 180px;
+        font-size: 1.5rem;
+    }
+
+    .choice-icon {
+        font-size: 3rem;
+    }
+
+    .question-card {
+        padding: 2rem 1.5rem;
+    }
+
+    .question-text {
+        font-size: 1.4rem;
+    }
+
+    .spinner {
+        font-size: 3rem;
+    }
+}
+
+.waiting-card {
+    padding: 3rem;
+    max-width: 500px;
+    margin: 0 auto;
+    text-align: center;
+    animation: fadeIn 0.5s ease;
+}
+
+.waiting-icon {
+    font-size: 4rem;
+    display: block;
+    margin-bottom: 1.5rem;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    50% {
+        transform: scale(1.1);
+        opacity: 0.7;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.card-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.action-btn {
+    min-width: 150px;
+}

@@ -8,6 +8,7 @@ import ConnectPartner from "./components/ConnectPartner";
 import TruthDare from "./components/TruthDare";
 import ProfileSetup from "./components/ProfileSetup";
 import DailyTasks from "./components/DailyTasks";
+import MediaGallery from "./components/MediaGallery";
 import ProtectedRoute from "./components/ProtectedRoute";
 import "./App.css";
 
@@ -82,10 +83,18 @@ function AppRoutes() {
           }
         />
         <Route
-          path="/tasks"
+          path="/daily-tasks"
           element={
             <ProtectedRoute>
               <DailyTasks />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/media"
+          element={
+            <ProtectedRoute>
+              <MediaGallery />
             </ProtectedRoute>
           }
         />

@@ -164,7 +164,12 @@
 }
 
 /* Responsive */
+/* Responsive */
 @media (max-width: 768px) {
+    .dashboard-container {
+        padding: 5rem 1rem 2rem;
+    }
+
     .dashboard-grid {
         grid-template-columns: 1fr;
         gap: 1.5rem;
@@ -180,6 +185,21 @@
 
     .feature-icon {
         font-size: 3rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .dashboard-header {
+        padding: 1rem;
+        margin-bottom: 2rem;
+    }
+
+    .user-welcome h2 {
+        font-size: 1.5rem;
+    }
+
+    .love-quote {
+        font-size: 0.9rem;
     }
 }
 

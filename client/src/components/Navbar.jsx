@@ -57,13 +57,14 @@ export default function Navbar() {
                     <>
                         <div className="menu-overlay" onClick={closeMenu}></div>
                         <div className="dropdown-menu">
-                            <Link
-                                to="/edit-profile"
-                                className="dropdown-item"
-                                onClick={closeMenu}
-                            >
-                                <span className="dropdown-icon">✏️</span>
-                                Edit Profile
+                            <Link to="/daily-tasks" className="dropdown-item" onClick={closeMenu}>
+                                📋 Daily Tasks
+                            </Link>
+                            <Link to="/media" className="dropdown-item" onClick={closeMenu}>
+                                📸 Gallery
+                            </Link>
+                            <Link to="/profile" className="dropdown-item" onClick={closeMenu}>
+                                👤 Profile
                             </Link>
                             <button
                                 className="dropdown-item logout-item"
