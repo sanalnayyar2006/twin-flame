@@ -60,7 +60,7 @@ router.get("/questions", verifyToken, async (req, res) => {
         });
     } catch (error) {
         console.error("Questions List Error:", error);
-        res.status(500).json({ message: "Server error" });
+        res.status(500).json({ message: "Server error", error: error.message });
     }
 });
 
@@ -158,7 +158,7 @@ router.get("/status", verifyToken, async (req, res) => {
         res.json({ isTurn });
     } catch (error) {
         console.error("Status Error:", error);
-        res.status(500).json({ message: "Server error" });
+        res.status(500).json({ message: "Server error", error: error.message });
     }
 });
 

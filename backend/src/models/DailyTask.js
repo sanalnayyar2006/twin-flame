@@ -29,6 +29,6 @@ const dailyTaskSchema = new mongoose.Schema({
 // Index for efficient daily queries
 // dailyTaskSchema.index({ date: 1 }); // Removed to avoid duplicate index warning (defined in schema)
 
-const DailyTask = mongoose.model("DailyTask", dailyTaskSchema);
+const DailyTask = mongoose.models.DailyTask || mongoose.model("DailyTask", dailyTaskSchema);
 
 export default DailyTask;
