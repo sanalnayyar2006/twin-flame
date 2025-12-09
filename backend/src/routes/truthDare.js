@@ -150,7 +150,7 @@ router.post("/seed", verifyToken, async (req, res) => {
 // @access  Private
 router.get("/status", verifyToken, async (req, res) => {
     try {
-        const user = await import("../models/User.js").then(m => m.default.findOne({ uid: req.user.uid }));
+        const user = await User.findOne({ uid: req.user.uid });
         if (!user) return res.status(404).json({ message: "User not found" });
 
         // Default to true if undefined (for existing users)
@@ -167,7 +167,6 @@ router.get("/status", verifyToken, async (req, res) => {
 // @access  Private
 router.post("/complete", verifyToken, async (req, res) => {
     try {
-        const User = await import("../models/User.js").then(m => m.default);
         const user = await User.findOne({ uid: req.user.uid });
 
         if (!user) return res.status(404).json({ message: "User not found" });

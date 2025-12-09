@@ -15,23 +15,22 @@ const PORT = process.env.PORT || 5000
 
 // Middlewares
 const allowedOrigins = [
-  "http://localhost:5173", 
-  "http://localhost:3000", 
-  "http://127.0.0.1:5173", 
+  "http://localhost:5173",
+  "http://localhost:3000",
+  "http://127.0.0.1:5173",
   "https://twin-flame-frontend.onrender.com"
 ];
 
 const corsOptions = {
   origin: function (origin, callback) {
-    console.log("Origin:", origin);
     // Allow requests with no origin (like mobile apps or curl requests)
     if (!origin) return callback(null, true);
     // Check allow list or regex match (optional)
-    if (allowedOrigins.indexOf(origin) !== -1 || (origin && origin.endsWith("onrender.com"))) {
+    if (allowedOrigins.indexOf(origin) !== -1 || origin.endsWith("onrender.com")) {
       callback(null, true);
     } else {
-      console.log("Blocked by CORS:", origin); // Log blocked origins for debugging
-      callback(null, true); // Allow anyway for now to fix the issue
+      console.log("Blocked by CORS:", origin);
+      callback(new Error('Not allowed by CORS'));
     }
   },
   credentials: true,
