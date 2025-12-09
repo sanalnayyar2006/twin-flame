@@ -14,14 +14,26 @@ const app = express()
 const PORT = process.env.PORT || 5000
 
 // Middlewares
+const allowedOrigins = ["http://localhost:5173", "http://localhost:3000", "http://127.0.0.1:5173", "https://twin-flame-frontend.onrender.com"];
+
 const corsOptions = {
-  origin: ["http://localhost:5173", "http://localhost:3000", "http://127.0.0.1:5173", "https://twin-flame-frontend.onrender.com"],
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      console.log("Blocked by CORS:", origin); // Log blocked origins for debugging
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true,
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
 }
 
-app.use(cors(corsOptions))
+app.use(cors(corsOptions));
+app.options('*', cors(corsOptions)); // Enable pre-flight for all routes
 app.use(express.json({ limit: "50mb" }))
 app.use(express.urlencoded({ limit: "50mb", extended: true }))
 
