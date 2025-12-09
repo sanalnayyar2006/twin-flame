@@ -32,8 +32,17 @@ const corsOptions = {
   allowedHeaders: ["Content-Type", "Authorization"],
 }
 
+app.set('trust proxy', 1); // Trust first proxy (Render uses proxies)
+
 app.use(cors(corsOptions));
-app.options(/(.*)/, cors(corsOptions)); // Enable pre-flight for all routes
+
+// Explicitly handle OPTIONS requests for all routes to ensure preflight works
+app.use((req, res, next) => {
+  if (req.method === 'OPTIONS') {
+    return cors(corsOptions)(req, res, next);
+  }
+  next();
+});
 app.use(express.json({ limit: "50mb" }))
 app.use(express.urlencoded({ limit: "50mb", extended: true }))
 
