@@ -59,13 +59,11 @@ app.use((req, res, next) => {
 app.use(express.json({ limit: "50mb" }))
 app.use(express.urlencoded({ limit: "50mb", extended: true }))
 
-// Logging middleware for dev
-if (process.env.NODE_ENV !== "production") {
-  app.use((req, res, next) => {
-    console.log(`${req.method} ${req.path}`)
-    next()
-  })
-}
+// Logging middleware
+app.use((req, res, next) => {
+  console.log(`${req.method} ${req.path}`);
+  next();
+});
 
 import userRoutes from "./src/routes/user.js"
 import truthDareRoutes from "./src/routes/truthDare.js"
