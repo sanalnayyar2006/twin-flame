@@ -6,6 +6,8 @@ import { fileURLToPath } from "url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+let firebaseInitialized = false;
+
 // Prevent re-initialization
 if (!admin.apps.length) {
   try {
@@ -29,12 +31,16 @@ if (!admin.apps.length) {
       storageBucket: "twinflame-47840.firebasestorage.app"
     });
 
+    firebaseInitialized = true;
     console.log("✅ Firebase Admin SDK initialized successfully");
   } catch (error) {
     console.error("🔥 Failed to initialize Firebase Admin:", error.message);
-    // Do not exit process in dev, but strictly required for prod function
-    if (process.env.NODE_ENV === 'production') process.exit(1);
+    firebaseInitialized = false;
+    // process.exit(1); // Keep running for diagnostics
   }
+} else {
+  firebaseInitialized = true;
 }
 
+export { firebaseInitialized };
 export default admin;

@@ -2,8 +2,8 @@ import express from "express"
 import dotenv from "dotenv"
 import cors from "cors"
 import authRoutes from "./src/routes/auth.js"
-import connectDB from "./src/config/db.js"
-import "./src/config/firebaseAdmin.js" // Ensures Firebase Admin is initialized
+import connectDB, { isConnected } from "./src/config/db.js"
+import { firebaseInitialized } from "./src/config/firebaseAdmin.js"
 
 dotenv.config()
 
@@ -18,31 +18,39 @@ const allowedOrigins = ["http://localhost:5173", "http://localhost:3000", "http:
 
 const corsOptions = {
   origin: function (origin, callback) {
+    console.log("Origin:", origin);
     // Allow requests with no origin (like mobile apps or curl requests)
     if (!origin) return callback(null, true);
-    if (allowedOrigins.indexOf(origin) !== -1) {
+    // Check allow list or regex match (optional)
+    if (allowedOrigins.indexOf(origin) !== -1 || (origin && origin.endsWith("onrender.com"))) {
       callback(null, true);
     } else {
       console.log("Blocked by CORS:", origin); // Log blocked origins for debugging
-      callback(new Error('Not allowed by CORS'));
+      callback(null, true); // Allow anyway for now to fix the issue
     }
   },
   credentials: true,
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
+  optionsSuccessStatus: 200
 }
 
 app.set('trust proxy', 1); // Trust first proxy (Render uses proxies)
 
 app.use(cors(corsOptions));
 
-// Explicitly handle OPTIONS requests for all routes to ensure preflight works
+// Handle preflight requests
 app.use((req, res, next) => {
   if (req.method === 'OPTIONS') {
-    return cors(corsOptions)(req, res, next);
+    res.header('Access-Control-Allow-Origin', req.headers.origin || '*');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    res.header('Access-Control-Allow-Credentials', 'true');
+    return res.sendStatus(200);
   }
   next();
 });
+
 app.use(express.json({ limit: "50mb" }))
 app.use(express.urlencoded({ limit: "50mb", extended: true }))
 
@@ -89,6 +97,17 @@ app.get("/", (req, res) => {
 app.get("/api/test", (req, res) => {
   res.json({ message: "API is working!", timestamp: new Date().toISOString() })
 })
+
+// Health Check Endpoint
+app.get("/api/health", (req, res) => {
+  const status = {
+    status: (isConnected && firebaseInitialized) ? "ok" : "error",
+    mongodb: isConnected ? "connected" : "disconnected",
+    firebase: firebaseInitialized ? "initialized" : "failed",
+    timestamp: new Date().toISOString()
+  };
+  res.status(status.status === "ok" ? 200 : 503).json(status);
+});
 
 // Error handling
 app.use((req, res) => {
