@@ -14,8 +14,8 @@ export default function MediaGallery() {
 
     const [media, setMedia] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [filter, setFilter] = useState('all'); 
-    const [viewMode, setViewMode] = useState('all'); 
+    const [filter, setFilter] = useState('all');
+    const [viewMode, setViewMode] = useState('all');
     const [categoryFilter, setCategoryFilter] = useState('all');
     const [lightboxMedia, setLightboxMedia] = useState(null);
     const [showUploadModal, setShowUploadModal] = useState(false);
@@ -256,7 +256,7 @@ export default function MediaGallery() {
                                             <p className="task-desc">{item.task.description}</p>
                                             <div className="submitter-info">
                                                 <img
-                                                    src={item.submittedBy.photoURL || '/default-avatar.png'}
+                                                    src={item.submittedBy.photoURL || `https://ui-avatars.com/api/?name=${item.submittedBy.name}&background=random`}
                                                     alt={item.submittedBy.name}
                                                     className="submitter-avatar"
                                                 />
@@ -403,7 +403,7 @@ export default function MediaGallery() {
                             <div className="lightbox-meta">
                                 <div className="submitter-info">
                                     <img
-                                        src={lightboxMedia.submittedBy.photoURL || '/default-avatar.png'}
+                                        src={lightboxMedia.submittedBy.photoURL || `https://ui-avatars.com/api/?name=${lightboxMedia.submittedBy.name}&background=random`}
                                         alt={lightboxMedia.submittedBy.name}
                                         className="submitter-avatar"
                                     />
