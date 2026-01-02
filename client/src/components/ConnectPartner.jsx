@@ -83,7 +83,12 @@ export default function ConnectPartner() {
                         <div className="error-text" style={{ textAlign: 'center' }}>
                             <p>{error}</p>
                             <p style={{ fontSize: '0.8rem', marginTop: '0.5rem', color: '#ff8fa3' }}>
+                            
                                 Check console for details.
+
+
+
+
                             </p>
                         </div>
                     )}

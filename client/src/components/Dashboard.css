@@ -1,8 +1,174 @@
 .dashboard-container {
-    padding: 6rem 2rem 2rem;
+    padding: 100px 20px 20px 20px;
     max-width: 1200px;
     margin: 0 auto;
 }
+
+.dashboard-header {
+    padding: 30px;
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+.user-welcome {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.greeting-text {
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 15px;
+    color: var(--text-primary);
+}
+
+.user-welcome h2 {
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+}
+
+.user-welcome p {
+    color: var(--text-secondary);
+    margin-bottom: 15px;
+}
+
+.love-quote {
+    font-style: italic;
+    color: #ff8fa3;
+    font-size: 1rem;
+    margin-top: 15px;
+    line-height: 1.6;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.connect-partner-btn {
+    margin-top: 15px;
+    padding: 12px 25px;
+    background: #ff4b6e;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.connect-partner-btn:hover {
+    background: #e63e5e;
+}
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+    margin-top: 30px;
+}
+
+.feature-card {
+    padding: 40px 30px;
+    text-align: center;
+    cursor: pointer;
+    position: relative;
+}
+
+.feature-card:hover {
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+    border-color: var(--primary-color);
+}
+
+.feature-icon-wrapper {
+    margin-bottom: 20px;
+}
+
+.feature-icon {
+    font-size: 3.5rem;
+}
+
+.feature-card:hover .feature-icon {
+    color: var(--primary-color);
+}
+
+.feature-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 15px;
+    color: var(--text-primary);
+}
+
+.feature-desc {
+    color: var(--text-secondary);
+    margin-bottom: 20px;
+    line-height: 1.6;
+}
+
+.action-btn {
+    width: 100%;
+    padding: 14px 25px;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.partner-info-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 16px;
+    padding: 30px;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.partner-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin: 0 auto 15px;
+    border: 3px solid var(--primary-color);
+}
+
+.partner-avatar img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.partner-name {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 5px;
+}
+
+.partner-email {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.loading {
+    text-align: center;
+    padding: 50px;
+    font-size: 1.2rem;
+    color: var(--text-secondary);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .dashboard-container {
+        padding: 80px 15px 15px 15px;
+    }
+
+    .greeting-text {
+        font-size: 2rem;
+    }
+
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+}
+
 
 .dashboard-header {
     padding: 2rem;
@@ -16,15 +182,11 @@
 }
 
 .greeting-text {
-    font-size: 2rem;
-    font-weight: 900;
+    font-size: 2.5rem;
+    font-weight: 800;
     margin-bottom: 1rem;
-    background: linear-gradient(135deg, #ff4b6e 0%, #ff8fa3 100%);
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    animation: gradientShift 3s ease infinite;
-    background-size: 200% 200%;
+    color: var(--text-primary);
+    letter-spacing: -0.5px;
 }
 
 .user-welcome h2 {
@@ -74,29 +236,12 @@
     cursor: pointer;
     position: relative;
     overflow: hidden;
-    transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-}
-
-.feature-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: var(--card-gradient, linear-gradient(135deg, #667eea 0%, #764ba2 100%));
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    z-index: -1;
-}
-
-.feature-card:hover::before {
-    opacity: 0.1;
+    transition: box-shadow 0.3s ease;
 }
 
 .feature-card:hover {
-    transform: translateY(-8px) scale(1.02);
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+    border-color: var(--primary-color);
 }
 
 .feature-icon-wrapper {
@@ -106,11 +251,10 @@
 .feature-icon {
     font-size: 3.5rem;
     display: inline-block;
-    transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
 
 .feature-card:hover .feature-icon {
-    transform: scale(1.2) rotate(5deg);
+    color: var(--primary-color);
 }
 
 .feature-title {

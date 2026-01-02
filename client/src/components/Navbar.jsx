@@ -8,6 +8,21 @@ export default function Navbar() {
     const navigate = useNavigate();
     const [menuOpen, setMenuOpen] = useState(false);
 
+    // Theme State
+    const [theme, setTheme] = useState(() => {
+        return localStorage.getItem("theme") || "light";
+    });
+
+    // Apply theme to document
+    React.useEffect(() => {
+        document.documentElement.setAttribute("data-theme", theme);
+        localStorage.setItem("theme", theme);
+    }, [theme]);
+
+    const toggleTheme = () => {
+        setTheme((prev) => (prev === "light" ? "dark" : "light"));
+    };
+
     const handleLogout = async () => {
         await logout();
         navigate("/login");
@@ -29,6 +44,23 @@ export default function Navbar() {
                 </Link>
 
                 <div className="navbar-right">
+                    {/* Theme Toggle */}
+                    <button
+                        className="theme-toggle"
+                        onClick={toggleTheme}
+                        aria-label="Toggle Dark Mode"
+                        style={{
+                            background: 'transparent',
+                            border: 'none',
+                            fontSize: '1.5rem',
+                            cursor: 'pointer',
+                            padding: '0 0.5rem',
+                            boxShadow: 'none'
+                        }}
+                    >
+                        {theme === "light" ? "🌙" : "☀️"}
+                    </button>
+
                     {/* Profile Icon */}
                     <div className="profile-icon">
                         {user?.photoURL ? (
@@ -63,7 +95,7 @@ export default function Navbar() {
                             <Link to="/media" className="dropdown-item" onClick={closeMenu}>
                                 📸 Gallery
                             </Link>
-                            <Link to="/profile" className="dropdown-item" onClick={closeMenu}>
+                            <Link to="/edit-profile" className="dropdown-item" onClick={closeMenu}>
                                 👤 Profile
                             </Link>
                             <button

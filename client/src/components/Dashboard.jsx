@@ -64,35 +64,24 @@ export default function Dashboard() {
   const features = [
     {
       title: "Daily Task",
-      icon: "📅",
       desc: "Complete today's fun challenge with your partner!",
       action: "View Task",
-      path: "/tasks",
+      path: "/daily-tasks",
       gradient: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)"
     },
     {
       title: "Truth & Dare",
-      icon: "🎲",
       desc: "Spin the bottle and play a game of honesty or daring.",
       action: "Play Now",
       path: "/truth-dare",
       gradient: "linear-gradient(135deg, #f093fb 0%, #f5576c 100%)"
     },
     {
-      title: "Chat",
-      icon: "💬",
-      desc: "Private secure messaging with your twin flame.",
-      action: "Open Chat",
-      path: "/chat",
-      gradient: "linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)"
-    },
-    {
       title: "Media Gallery",
-      icon: "📸",
-      desc: "Your shared album of memories and voice notes.",
+      desc: "View and share your favorite memories together.",
       action: "View Gallery",
       path: "/media",
-      gradient: "linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)"
+      gradient: "linear-gradient(135deg, #fa709a 0%, #fee140 100%)"
     }
   ]
 
@@ -131,9 +120,6 @@ export default function Dashboard() {
               className={`feature-card glass-card hover-lift ${isVisible ? 'animate-fadeInUp' : ''} stagger-${index + 1}`}
               style={{ '--card-gradient': feature.gradient }}
             >
-              <div className="feature-icon-wrapper">
-                <div className="feature-icon animate-float">{feature.icon}</div>
-              </div>
               <h3 className="feature-title">{feature.title}</h3>
               <p className="feature-desc">{feature.desc}</p>
               <Button

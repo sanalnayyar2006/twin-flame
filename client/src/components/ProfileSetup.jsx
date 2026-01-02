@@ -47,7 +47,7 @@ export default function ProfileSetup() {
                 const profile = await profileAPI.getProfile();
                 if (profile) {
                     setFormData({
-                        name: profile.name || "",
+                        name: profile.name || profile.displayName || "",
                         gender: profile.gender || "",
                         age: profile.age || "",
                     });
@@ -104,8 +104,8 @@ export default function ProfileSetup() {
                     console.log("Photo uploaded:", photoURL);
                 } catch (uploadError) {
                     console.error("Photo upload failed:", uploadError);
+                    alert(`Photo upload failed: ${uploadError.message}. Continuing with text update.`);
                     // Continue without photo update if upload fails
-                    setError("Photo upload failed (likely CORS). Saving profile without new photo.");
                     // Fallback to existing user photo, NOT the base64 preview
                     photoURL = user.photoURL || "";
                 }
@@ -141,6 +141,7 @@ export default function ProfileSetup() {
 
         } catch (err) {
             console.error("Profile setup error:", err);
+            alert(`Save Failed: ${err.message}`); // ALERT FOR DEBUGGING
             setError(err.message || "Failed to save profile. Please try again.");
         } finally {
             setLoading(false);
